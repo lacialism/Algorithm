@@ -5,54 +5,45 @@ using namespace std;
 
 int main()
 {
-	stack<char> s;
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
 	string str;
 
 	do
 	{
 	NEXT:
-		while (!s.empty())
-			s.pop();
+		stack<char> s;
+
 		getline(cin, str, '.');
 		cin.ignore();
+
 		if (str == "")
 			return 0;
 			
-
-		while ( !str.empty() )
+		for (char a : str)
 		{
-			char a = str.front();
-			switch (a)
-			{
-			case '[':
-			case '(':
+			if (a == '[' || a == '(')
 				s.push(a);
-				break;
-
-
-			case ']':
-				if ( s.empty() || (s.top() != '[') )
+			else if (a == ']')
+			{
+				if (s.empty() || (s.top() != '['))
 				{
 					cout << "no\n";
 					goto NEXT;
 				}
 				s.pop();
-				break;
-
-			case ')':
-				if ( s.empty() || (s.top() != '(') )
-				{
-					cout << "no\n";
-					goto NEXT;
-				}
-				s.pop();
-				break;
-
-
-			default:
-				break;
 			}
-			str.erase(str.begin());
+			else if (a == ')')
+			{
+				if (s.empty() || (s.top() != '('))
+				{
+					cout << "no\n";
+					goto NEXT;
+				}
+				s.pop();
+			}
 		}
 
 		if(s.empty())
